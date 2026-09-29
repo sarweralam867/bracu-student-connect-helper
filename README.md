@@ -1,78 +1,79 @@
-# BRACU Course Seat Finder
+# BRACU Student Connect Helper
 
-A local tool for checking BRACU course seat status using the active BRACU Connect session in Chrome.
+A small browser-based helper for BRACU Connect.
+
+The project is designed for GitHub Pages. The public page only hosts the launcher and instructions. Course and seat information is loaded inside the already signed-in BRACU Connect tab, so BRACU session data is not stored in this repository or sent to GitHub Pages.
 
 ## Features
 
-- Reuses the same Chrome session when possible
-- Opens Chrome in Incognito mode
-- Uses the active BRACU login session
-- Reads course and seat data from BRACU Connect APIs
-- Shows course, section, faculty, day, time, room, total seat, booked seat, remaining seat, and status
-- Supports course search and available-seat filtering
-- Keeps browser, API, data, and dashboard code separated for easier maintenance
+- Uses the current BRACU Connect login session
+- No Selenium or local Python setup required
+- Searches course code, faculty, day, time, room, and section
+- Shows total seat, booked seat, remaining seat, and status
+- Filters sections with available seats
+- Refreshes live seat information without another login
+- Works for the academic level returned by the current BRACU session
 
 ## Project Structure
 
 ```text
-bracu-seat-finder/
-├── README.md
-├── requirements.txt
+bracu-student-connect-helper/
+├── .github/
+│   └── workflows/
+│       └── pages.yml
+├── assets/
+│   ├── css/
+│   │   └── site.css
+│   └── js/
+│       └── site.js
+├── bookmarklet/
+│   ├── source.js
+│   └── bookmarklet.txt
 ├── .gitignore
-├── settings.example.json
-├── run.py
-└── bracu_seat_finder/
-    ├── __init__.py
-    ├── browser.py
-    ├── capture.py
-    ├── config.py
-    ├── data.py
-    ├── dashboard.py
-    ├── templates/
-    │   └── dashboard.html
-    └── static/
-        ├── dashboard.css
-        └── dashboard.js
+├── .nojekyll
+├── LICENSE
+├── README.md
+└── index.html
 ```
 
-## Requirements
+## How It Works
 
-- Windows
-- Google Chrome
-- Python 3.10 or newer
-- BRACU Connect account
+1. GitHub Pages hosts the project page.
+2. The project page provides a browser bookmark launcher.
+3. Sign in to BRACU Connect normally.
+4. Run the launcher from the BRACU Connect tab.
+5. The helper reads BRACU APIs from the same signed-in origin and displays a searchable dashboard over the current page.
 
-## Setup
+The helper does not ask for a BRACU password, Google password, access token, refresh token, or cookie.
 
-Install the dependency:
+## Deploy With GitHub Pages
 
-```bash
-pip install -r requirements.txt
+1. Upload the project files to the repository root.
+2. Open the repository on GitHub.
+3. Go to **Settings > Pages**.
+4. Under **Build and deployment**, select **GitHub Actions**.
+5. Push or commit the files to `main`.
+6. The included workflow deploys the site automatically.
+
+The site URL will normally be:
+
+```text
+https://<github-username>.github.io/<repository-name>/
 ```
 
-Copy `settings.example.json` to `settings.json`, then set the BRACU student ID:
+## Install The Launcher
 
-```json
-{
-  "student_id": 75867
-}
-```
-
-`settings.json` is ignored by Git.
-
-## Run
-
-```bash
-python run.py
-```
-
-On the first run, Chrome opens in Incognito mode. Complete the BRACU / Google SSO login in that Chrome window.
-
-While the same Chrome window remains open, later runs reuse the same browser session.
+1. Open the deployed GitHub Pages site.
+2. Click **Copy launcher**.
+3. Create a new browser bookmark.
+4. Name it `BRACU Connect Helper`.
+5. Paste the copied text into the bookmark's URL field.
+6. Open BRACU Connect and sign in normally.
+7. Click the `BRACU Connect Helper` bookmark.
 
 ## Seat Calculation
 
-The live seat-status API value is treated as the current booked-seat count for each section.
+The live seat-status endpoint returns the current booked-seat count for each section.
 
 ```text
 Remaining Seat = Total Seat - Booked Seat
@@ -80,12 +81,28 @@ Remaining Seat = Total Seat - Booked Seat
 
 Status rules:
 
-- Available: remaining seat is greater than 0
-- Full: remaining seat is 0
-- Overbooked: remaining seat is below 0
+```text
+Remaining > 0   Available
+Remaining = 0   Full
+Remaining < 0   Overbooked
+```
 
-The available-seat filter only shows rows where remaining seat is greater than 0.
+The **Available seats only** option shows only sections where remaining seat is greater than zero.
 
-## GitHub
+## Updating The Helper
 
-This repository can be pushed to GitHub normally. The current version is a local browser-session application and is not intended to run directly on GitHub Pages because it depends on the user's authenticated BRACU Chrome session.
+Edit:
+
+```text
+bookmarklet/source.js
+```
+
+After changing it, rebuild `bookmarklet/bookmarklet.txt` by replacing line breaks with spaces while keeping the JavaScript valid. The repository currently includes both files so the deployed page works without a build step.
+
+## Privacy
+
+The hosted page itself does not receive BRACU session cookies or tokens. The launcher runs on `connect.bracu.ac.bd` and uses the browser's existing signed-in session to request BRACU data from BRACU.
+
+## Disclaimer
+
+This is an independent helper project and is not an official BRAC University application. BRAC University may change its website or API structure at any time, which can require updates to this project.

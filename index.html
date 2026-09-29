@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Browser-based helper for BRACU Connect course and seat information.">
+    <title>BRACU Student Connect Helper</title>
+    <link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+    <main class="page">
+        <section class="hero">
+            <p class="eyebrow">BRACU Connect Utility</p>
+            <h1>BRACU Student Connect Helper</h1>
+            <p class="lead">
+                Search course sections and check live seat status using the BRACU Connect session
+                already signed in to the browser.
+            </p>
+        </section>
+
+        <section class="card">
+            <h2>Install</h2>
+            <p>
+                Copy the launcher, save it as a browser bookmark, then run it while signed in to
+                BRACU Connect.
+            </p>
+
+            <div class="actions">
+                <button id="copyLauncher" class="button primary" type="button">
+                    Copy launcher
+                </button>
+                <a class="button secondary" href="https://connect.bracu.ac.bd/" target="_blank" rel="noopener">
+                    Open BRACU Connect
+                </a>
+            </div>
+
+            <p id="copyStatus" class="status" aria-live="polite"></p>
+
+            <ol class="steps">
+                <li>Create a new browser bookmark.</li>
+                <li>Name it <strong>BRACU Connect Helper</strong>.</li>
+                <li>Paste the copied launcher into the bookmark URL field.</li>
+                <li>Sign in to BRACU Connect normally.</li>
+                <li>While on BRACU Connect, click the saved bookmark.</li>
+            </ol>
+        </section>
+
+        <section class="card">
+            <h2>What it shows</h2>
+            <div class="feature-grid">
+                <div>
+                    <strong>Course details</strong>
+                    <span>Course, section, faculty, day, time, room and credit.</span>
+                </div>
+                <div>
+                    <strong>Seat status</strong>
+                    <span>Total seat, booked seat, remaining seat and availability.</span>
+                </div>
+                <div>
+                    <strong>Search</strong>
+                    <span>Filter by course code, faculty, section, day or room.</span>
+                </div>
+                <div>
+                    <strong>Live refresh</strong>
+                    <span>Refresh BRACU data from the current signed-in session.</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="card note">
+            <h2>Session handling</h2>
+            <p>
+                The launcher runs inside <code>connect.bracu.ac.bd</code>. BRACU login data stays
+                in the BRACU browser session and is not sent to this GitHub Pages site.
+            </p>
+        </section>
+
+        <footer>
+            Independent helper project. Not an official BRAC University application.
+        </footer>
+    </main>
+
+    <script src="assets/js/site.js"></script>
+</body>
+</html>
